@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #0A0F1E;
+    font-family: 'Inter', sans-serif;
+    color: #E2E8F0;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #7DD3FC;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #64748B;
+    margin-bottom: 36px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .node {
+    border-radius: 12px;
+    padding: 16px 20px;
+    min-width: 160px;
+    text-align: center;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.2s;
+  }
+
+  .node:hover { transform: translateY(-2px); }
+
+  .node-icon {
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
+
+  .node-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .node-sub {
+    font-size: 11px;
+    opacity: 0.65;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .node-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Machine nodes */
+  .thing { background: linear-gradient(135deg, #1E3A5F, #0F2040); border-color: #3B82F6; }
+  .thing .node-title { color: #60A5FA; }
+  .thing .node-tag { background: #1D4ED8; color: #BFDBFE; }
+
+  .drone { background: linear-gradient(135deg, #1A3320, #0F2015); border-color: #22C55E; }
+  .drone .node-title { color: #4ADE80; }
+  .drone .node-tag { background: #15803D; color: #BBF7D0; }
+
+  /* Memory folder */
+  .memory-folder { background: linear-gradient(135deg, #2D1B4E, #1A0F30); border-color: #A855F7; }
+  .memory-folder .node-title { color: #C084FC; }
+
+  /* Proton */
+  .proton { background: linear-gradient(135deg, #3B1F1F, #250F0F); border-color: #EF4444; }
+  .proton .node-title { color: #F87171; }
+  .proton .node-tag { background: #991B1B; color: #FCA5A5; }
+
+  /* Claude */
+  .claude-node { background: linear-gradient(135deg, #1F2D3B, #111820); border-color: #F59E0B; }
+  .claude-node .node-title { color: #FCD34D; }
+
+  /* Arrows */
+  .arrow-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 80px;
+  }
+
+  .arrow-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4px 0;
+  }
+
+  .arrow-line-v {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(to bottom, #334155, #475569);
+  }
+
+  .arrow-line-h {
+    height: 2px;
+    width: 60px;
+    background: linear-gradient(to right, #334155, #475569);
+  }
+
+  .arrow-label {
+    font-size: 10px;
+    color: #64748B;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: center;
+    padding: 3px 8px;
+    background: #0F172A;
+    border-radius: 4px;
+    border: 1px solid #1E293B;
+    white-space: nowrap;
+  }
+
+  .arrow-push { color: #3B82F6; border-color: #1D4ED8; }
+  .arrow-pull { color: #22C55E; border-color: #15803D; }
+  .arrow-read { color: #F59E0B; border-color: #92400E; }
+  .arrow-write { color: #A855F7; border-color: #6B21A8; }
+
+  .chevron-down { color: #475569; font-size: 16px; line-height: 1; }
+  .chevron-right { color: #475569; font-size: 16px; }
+
+  /* Middle section */
+  .middle-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 0;
+  }
+
+  .side-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+  }
+
+  /* Files section */
+  .files-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .file-chip {
+    background: #111827;
+    border: 1px solid #1F2937;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .file-chip-title {
+    color: #C084FC;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .file-chip-sub {
+    color: #4B5563;
+    font-size: 10px;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #64748B;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .cron-badge {
+    background: #0F172A;
+    border: 1px solid #1E293B;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #64748B;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  .section-label {
+    text-align: center;
+    font-size: 11px;
+    color: #334155;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 10px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="title">Claude Memory Sync System</div>
+<div class="subtitle">// data flow architecture</div>
+
+<div class="flow">
+
+  <!-- Top: Claude -->
+  <div class="row">
+    <div class="node claude-node" style="min-width:200px">
+      <div class="node-icon">🤖</div>
+      <div class="node-title">Claude AI</div>
+      <div class="node-sub">claude.ai projects</div>
+      <div class="node-sub" style="margin-top:4px; color:#F59E0B; font-size:10px;">AI Lab · ViTell · LinkedIn Pro · etc.</div>
+    </div>
+  </div>
+
+  <!-- Arrow down: read/write -->
+  <div class="arrow-row" style="align-items:center">
+    <div class="arrow-line-v"></div>
+    <div class="arrow-label arrow-read">reads context on start</div>
+    <div class="arrow-line-v"></div>
+    <div class="arrow-label arrow-write">writes updates after session</div>
+    <div class="arrow-line-v"></div>
+    <div class="chevron-down">▼</div>
+  </div>
+
+  <!-- Memory Folder -->
+  <div class="row">
+    <div class="node memory-folder" style="min-width:260px">
+      <div class="node-icon">📁</div>
+      <div class="node-title">claude-memory/</div>
+      <div class="node-sub">~/Desktop/claude-memory</div>
+      <div class="files-grid" style="margin-top:10px; grid-template-columns:1fr 1fr; gap:6px">
+        <div class="file-chip">
+          <div class="file-chip-title">memory/</div>
+          <div class="file-chip-sub">context, heartbeat</div>
+        </div>
+        <div class="file-chip">
+          <div class="file-chip-title">projects/</div>
+          <div class="file-chip-sub">ViTell, AI Lab...</div>
+        </div>
+        <div class="file-chip">
+          <div class="file-chip-title">experiments/</div>
+          <div class="file-chip-sub">logs, results</div>
+        </div>
+        <div class="file-chip">
+          <div class="file-chip-title">logs/</div>
+          <div class="file-chip-sub">sync history</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arrow down to Proton -->
+  <div class="arrow-row" style="align-items:center">
+    <div class="arrow-line-v"></div>
+    <div class="arrow-label arrow-push">rclone sync · every 30 min</div>
+    <div class="arrow-line-v"></div>
+    <div class="chevron-down">▼</div>
+  </div>
+
+  <!-- Proton Drive -->
+  <div class="row">
+    <div class="node proton" style="min-width:220px">
+      <div class="node-icon">🔐</div>
+      <div class="node-title">Proton Drive</div>
+      <div class="node-sub">proton:claude-memory</div>
+      <div class="node-tag">end-to-end encrypted</div>
+      <div class="cron-badge">passive backup · always in sync</div>
+    </div>
+  </div>
+
+  <!-- Two arrows down to machines -->
+  <div class="arrow-row" style="align-items:center">
+    <div class="arrow-line-v"></div>
+    <div class="arrow-label arrow-pull">rclone pulls down · every 30 min</div>
+    <div class="arrow-line-v"></div>
+    <div class="chevron-down">▼</div>
+  </div>
+
+  <!-- Two machines -->
+  <div class="row" style="gap:24px; align-items:stretch">
+
+    <div class="node thing" style="flex:1; max-width:220px">
+      <div class="node-icon">💻</div>
+      <div class="node-title">Thing</div>
+      <div class="node-sub">MSI GE73VR · office</div>
+      <div class="node-tag">PRIMARY</div>
+      <div class="cron-badge" style="margin-top:8px">systemd auto-start<br/>pushes UP to cloud</div>
+    </div>
+
+    <div style="display:flex; align-items:center; color:#334155; font-size:20px">⟷</div>
+
+    <div class="node drone" style="flex:1; max-width:220px">
+      <div class="node-icon">🖥️</div>
+      <div class="node-title">Drone</div>
+      <div class="node-sub">ThinkPad T480 · travel</div>
+      <div class="node-tag">SECONDARY</div>
+      <div class="cron-badge" style="margin-top:8px">systemd auto-start<br/>pulls DOWN from cloud</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>Claude reads/writes</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B82F6"></div>Pushes to cloud</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#22C55E"></div>Pulls from cloud</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div>Encrypted storage</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#A855F7"></div>Local file system</div>
+</div>
+
+</body>
+</html>

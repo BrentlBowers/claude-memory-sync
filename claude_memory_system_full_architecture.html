@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Claude Memory Sync System -- Full Architecture</title>
+<style>
+  body {
+    background: #0A0F1E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  svg {
+    max-width: 760px;
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+<svg width="100%" viewBox="0 0 680 740" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<!-- TITLE -->
+<text font-size="18" font-weight="700" fill="#7DD3FC" x="340" y="28" text-anchor="middle">Claude Memory Sync System</text>
+<text font-size="12" fill="#64748B" x="340" y="46" text-anchor="middle">automated, encrypted, always in sync</text>
+
+<!-- CLAUDE AI -->
+<rect x="220" y="62" width="240" height="56" rx="8" fill="#1F2D3B" stroke="#F59E0B" stroke-width="0.5"/>
+<text font-size="14" font-weight="700" fill="#FCD34D" x="340" y="84" text-anchor="middle" dominant-baseline="central">Claude AI</text>
+<text font-size="12" fill="#92400E" x="340" y="102" text-anchor="middle" dominant-baseline="central">claude.ai -- all projects</text>
+
+<!-- Claude arrow down -->
+<line x1="340" y1="118" x2="340" y2="148" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text font-size="11" fill="#BA7517" x="370" y="137">reads + writes context</text>
+
+<!-- MEMORY FOLDER -->
+<rect x="180" y="148" width="320" height="100" rx="12" fill="#2D1B4E" stroke="#A855F7" stroke-width="0.5"/>
+<text font-size="14" font-weight="700" fill="#C084FC" x="340" y="170" text-anchor="middle" dominant-baseline="central">claude-memory folder</text>
+<text font-size="12" fill="#7C3AED" x="340" y="188" text-anchor="middle" dominant-baseline="central">~/Desktop/claude-memory/</text>
+
+<!-- File chips -->
+<rect x="196" y="200" width="66" height="36" rx="6" fill="#111827" stroke="#374151" stroke-width="0.5"/>
+<text font-size="11" fill="#9CA3AF" x="229" y="219" text-anchor="middle" dominant-baseline="central">memory/</text>
+
+<rect x="272" y="200" width="66" height="36" rx="6" fill="#111827" stroke="#374151" stroke-width="0.5"/>
+<text font-size="11" fill="#9CA3AF" x="305" y="219" text-anchor="middle" dominant-baseline="central">projects/</text>
+
+<rect x="348" y="200" width="76" height="36" rx="6" fill="#111827" stroke="#374151" stroke-width="0.5"/>
+<text font-size="11" fill="#9CA3AF" x="386" y="219" text-anchor="middle" dominant-baseline="central">experiments/</text>
+
+<rect x="434" y="200" width="56" height="36" rx="6" fill="#111827" stroke="#374151" stroke-width="0.5"/>
+<text font-size="11" fill="#9CA3AF" x="462" y="219" text-anchor="middle" dominant-baseline="central">logs/</text>
+
+<!-- Scripts label -->
+<text font-size="11" fill="#475569" x="340" y="274" text-anchor="middle">python scripts running silently in background</text>
+
+<!-- SYNC SCRIPTS -->
+<rect x="100" y="284" width="196" height="56" rx="8" fill="#1A3320" stroke="#22C55E" stroke-width="0.5"/>
+<text font-size="14" font-weight="700" fill="#4ADE80" x="198" y="303" text-anchor="middle" dominant-baseline="central">claude_sync.py</text>
+<text font-size="12" fill="#15803D" x="198" y="321" text-anchor="middle" dominant-baseline="central">heartbeat every 30 min</text>
+
+<rect x="384" y="284" width="196" height="56" rx="8" fill="#1A3320" stroke="#22C55E" stroke-width="0.5"/>
+<text font-size="14" font-weight="700" fill="#4ADE80" x="482" y="303" text-anchor="middle" dominant-baseline="central">claude_api_sync.py</text>
+<text font-size="12" fill="#15803D" x="482" y="321" text-anchor="middle" dominant-baseline="central">context, log, update</text>
+
+<!-- Scripts arrows up to memory folder -->
+<line x1="198" y1="284" x2="280" y2="248" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="482" y1="284" x2="400" y2="248" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Arrow down to Proton -->
+<line x1="340" y1="360" x2="340" y2="392" stroke="#993C1D" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text font-size="11" fill="#993C1D" x="420" y="380">rclone sync every 30 min</text>
+
+<!-- PROTON DRIVE -->
+<rect x="190" y="392" width="300" height="64" rx="12" fill="#3B1F1F" stroke="#EF4444" stroke-width="0.5"/>
+<text font-size="14" font-weight="700" fill="#F87171" x="340" y="411" text-anchor="middle" dominant-baseline="central">Proton Drive</text>
+<text font-size="12" fill="#991B1B" x="340" y="429" text-anchor="middle" dominant-baseline="central">end-to-end encrypted cloud backup</text>
+
+<!-- Arrows to laptops -->
+<line x1="260" y1="456" x2="170" y2="496" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text font-size="11" fill="#185FA5" x="148" y="480" text-anchor="middle">push up</text>
+
+<line x1="420" y1="456" x2="510" y2="496" stroke="#185FA5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text font-size="11" fill="#185FA5" x="536" y="480" text-anchor="middle">pull down</text>
+
+<!-- LAPTOP 1 -->
+<rect x="40" y="496" width="240" height="100" rx="12" fill="#1E3A5F" stroke="#3B82F6" stroke-width="0.5"/>
+<text font-size="14" font-weight="700" fill="#60A5FA" x="160" y="518" text-anchor="middle" dominant-baseline="central">Laptop 1</text>
+<text font-size="12" fill="#1D4ED8" x="160" y="536" text-anchor="middle" dominant-baseline="central">primary -- daily driver</text>
+
+<rect x="56" y="550" width="96" height="32" rx="6" fill="#0F2040" stroke="#1D4ED8" stroke-width="0.5"/>
+<text font-size="11" fill="#93C5FD" x="104" y="567" text-anchor="middle" dominant-baseline="central">systemd service</text>
+
+<rect x="164" y="550" width="100" height="32" rx="6" fill="#0F2040" stroke="#1D4ED8" stroke-width="0.5"/>
+<text font-size="11" fill="#93C5FD" x="214" y="567" text-anchor="middle" dominant-baseline="central">cron -- pushes up</text>
+
+<!-- LAPTOP 2 -->
+<rect x="400" y="496" width="240" height="100" rx="12" fill="#1E3A5F" stroke="#3B82F6" stroke-width="0.5"/>
+<text font-size="14" font-weight="700" fill="#60A5FA" x="520" y="518" text-anchor="middle" dominant-baseline="central">Laptop 2</text>
+<text font-size="12" fill="#1D4ED8" x="520" y="536" text-anchor="middle" dominant-baseline="central">secondary -- travel machine</text>
+
+<rect x="416" y="550" width="96" height="32" rx="6" fill="#0F2040" stroke="#1D4ED8" stroke-width="0.5"/>
+<text font-size="11" fill="#93C5FD" x="464" y="567" text-anchor="middle" dominant-baseline="central">systemd service</text>
+
+<rect x="524" y="550" width="100" height="32" rx="6" fill="#0F2040" stroke="#1D4ED8" stroke-width="0.5"/>
+<text font-size="11" fill="#93C5FD" x="574" y="567" text-anchor="middle" dominant-baseline="central">cron -- pulls down</text>
+
+<!-- DIVIDER -->
+<line x1="40" y1="618" x2="640" y2="618" stroke="#1E293B" stroke-width="0.5"/>
+
+<!-- FOOTER NOTES -->
+<text font-size="11" fill="#475569" x="340" y="638" text-anchor="middle">both laptops run Linux. API key secured locally. never synced to cloud.</text>
+<text font-size="11" fill="#475569" x="340" y="658" text-anchor="middle">Laptop 1 is source of truth. Laptop 2 stays in sync. Proton Drive is the encrypted bridge.</text>
+<text font-size="11" fill="#475569" x="340" y="678" text-anchor="middle">Claude native memory handles conversational context. This system handles structured backup.</text>
+<text font-size="11" fill="#475569" x="340" y="698" text-anchor="middle">fully automated. boots on startup. zero manual steps required.</text>
+
+</svg>
+</body>
+</html>
