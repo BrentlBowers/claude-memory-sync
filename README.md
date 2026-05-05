@@ -61,7 +61,12 @@ Structured JSON context files stored locally, synced to end-to-end encrypted clo
 **Proton Drive** -- encrypted cloud layer in the middle. No plain text ever hits the cloud.  
 **api_sync** -- reads local memory files, calls Claude API, generates startup context brief.
 
-See `claude_memory_system_full_architecture.html` and `claude_memory_sync_data_flow.html` for full interactive visual diagrams.
+![Claude Memory Sync Architecture](claude_memory_sync_architecture.svg)
+
+**Interactive diagrams -- open in browser for full detail:**
+
+- [Full System Architecture](https://htmlpreview.github.io/?https://github.com/BrentlBowers/claude-memory-sync/blob/main/claude_memory_system_full_architecture.html)
+- [Data Flow Diagram](https://htmlpreview.github.io/?https://github.com/BrentlBowers/claude-memory-sync/blob/main/claude_memory_sync_data_flow.html)
 
 ---
 
