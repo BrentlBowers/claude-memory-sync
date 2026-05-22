@@ -48,7 +48,7 @@ Structured JSON context files stored locally, synced to end-to-end encrypted clo
 │  ~/Desktop/          │   │  ~/Desktop/                  │
 │  claude-memory/      │   │  claude-memory/              │
 └──────────┬───────────┘   └──────────────┬───────────────┘
-           │ rclone push (every 30 min)    │ rclone pull (every 30 min)
+           │ rclone push (1x a day)    │ rclone pull (1x a day)
            ▼                              ▲
            ┌──────────────────────────────┤
            │       Proton Drive           │
@@ -56,8 +56,8 @@ Structured JSON context files stored locally, synced to end-to-end encrypted clo
            └──────────────────────────────┘
 ```
 
-**MSI GE73VR** -- primary daily driver. Pushes memory up to Proton Drive every 30 minutes.  
-**ThinkPad T480** -- travel machine. Pulls down from Proton Drive every 30 minutes.  
+**MSI GE73VR** -- primary daily driver. Pushes memory up to Proton Drive 1x a day.  
+**ThinkPad T480** -- travel machine. Pulls down from Proton Drive 1x a day.  
 **Proton Drive** -- encrypted cloud layer in the middle. No plain text ever hits the cloud.  
 **api_sync** -- reads local memory files, calls Claude API, generates startup context brief.
 
@@ -76,7 +76,7 @@ Structured JSON context files stored locally, synced to end-to-end encrypted clo
 |-----------|-------------|
 | `claude_sync.py` | Runs continuously via systemd. Writes heartbeat and context files every 30 min. |
 | `claude_api_sync.py` | Reads memory files, calls Claude API to generate startup context, logs session summaries. |
-| rclone + cron | Syncs `~/Desktop/claude-memory/` to Proton Drive every 30 min. MSI pushes up, ThinkPad pulls down. |
+| rclone + cron | Syncs `~/Desktop/claude-memory/` to Proton Drive 1x a day. MSI pushes up, ThinkPad pulls down. |
 | systemd | Auto-starts both scripts on boot. Fully hands-off after setup. |
 | `.env` (chmod 600) | API key stored locally only. Never synced to cloud. Never committed to git. |
 
