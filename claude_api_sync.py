@@ -2,6 +2,7 @@
 """
 claude_api_sync.py
 Claude Memory Sync -- API Intelligence Layer
+v1.1.1 -- Model updated to claude-sonnet-5 (claude-sonnet-4-20250514 is deprecated)
 v1.1.0 -- Added framework file injection into startup brief
 
 Commands:
@@ -44,7 +45,7 @@ logging.basicConfig(
 
 load_dotenv(Path.home() / "claude-sync-venv" / ".env")
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-MODEL = "claude-sonnet-4-20250514"
+MODEL = "claude-sonnet-5"
 
 
 # -- Helpers -----------------------------------------------------------------

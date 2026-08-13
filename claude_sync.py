@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
 Claude Memory Sync Script
-Thing (Primary) -- Brent Bowers AI Lab
+Runs on each machine; identity comes from the environment, not the code.
+
+Configure per machine in ~/claude-sync-venv/.env (alongside ANTHROPIC_API_KEY):
+  CLAUDE_SYNC_MACHINE=primary        # this machine's label (e.g. primary / secondary)
+  CLAUDE_SYNC_PEER=secondary         # the other machine's label
+  CLAUDE_SYNC_OWNER=Your Name        # written into the initial context file
 """
 
 import os
@@ -22,6 +27,9 @@ LOGS_DIR = BASE_DIR / "logs"
 ENV_PATH = Path.home() / "claude-sync-venv" / ".env"
 config = dotenv_values(ENV_PATH)
 API_KEY = config.get("ANTHROPIC_API_KEY")
+MACHINE_NAME = config.get("CLAUDE_SYNC_MACHINE", "primary")
+PEER_NAME = config.get("CLAUDE_SYNC_PEER", "secondary")
+OWNER_NAME = config.get("CLAUDE_SYNC_OWNER", "owner")
 
 logging.basicConfig(
     filename=LOGS_DIR / "sync.log",
@@ -69,7 +77,7 @@ def log_experiment(name, data):
 def heartbeat():
     data = {
         "last_ping": datetime.now().isoformat(),
-        "machine": "Thing",
+        "machine": MACHINE_NAME,
         "status": "running"
     }
     write_memory("heartbeat.json", data)
@@ -78,16 +86,16 @@ def heartbeat():
 def init_state():
     if not (MEMORY_DIR / "context.json").exists():
         write_memory("context.json", {
-            "owner": "Brent Bowers",
-            "primary_machine": "Thing",
-            "secondary_machine": "Drone",
-            "projects": ["ViTell", "AI Lab", "LinkedIn Pro", "Personal Advisor", "Grok Intel"],
+            "owner": OWNER_NAME,
+            "primary_machine": MACHINE_NAME,
+            "secondary_machine": PEER_NAME,
+            "projects": ["example_project"],
             "created": datetime.now().isoformat(),
             "notes": "Primary context file for Claude memory sync"
         })
         log("Initial context.json created")
 
-    for project in ["vitell", "ai_lab", "linkedin_pro", "personal_advisor", "grok_intel"]:
+    for project in ["example_project"]:
         if not (PROJECTS_DIR / f"{project}.json").exists():
             write_project(project, {
                 "name": project,
@@ -107,7 +115,7 @@ def run_scheduler():
         time.sleep(60)
 
 if __name__ == "__main__":
-    log("Claude Sync starting up on Thing...")
+    log(f"Claude Sync starting up on {MACHINE_NAME}...")
     if not API_KEY:
         log("ERROR: No API key found. Check your .env file.")
         exit(1)
